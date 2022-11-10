@@ -1,0 +1,93 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type UserDto {
+  id: Int!
+  email: String!
+  roles: [String!]!
+}
+
+type Role {
+  id: Int!
+  name: String!
+}
+
+type User {
+  id: Int!
+  email: String!
+  password: String!
+  roles: [Role!]!
+}
+
+type MessageDto {
+  message: String!
+}
+
+type TokenDto {
+  accessToken: String!
+}
+
+type Category {
+  id: Int!
+  name: String!
+}
+
+type Product {
+  id: Int!
+  name: String!
+  description: String!
+  price: Int!
+  user: User!
+  categories: [Category!]!
+}
+
+type ProductDto {
+  id: Int!
+  name: String!
+  description: String!
+  price: Int!
+  userEmail: String!
+  categories: [String!]!
+}
+
+type Query {
+  whoAmI: UserDto!
+  allUsers: [UserDto!]!
+  allRoles: [Role!]!
+  allProducts: [ProductDto!]!
+  userProducts: [ProductDto!]!
+  allCategories: [Category!]!
+}
+
+type Mutation {
+  addUser(userData: CreateUserRoleDto!): User!
+  deleteUser(userId: Float!): UserDto!
+  changePassword(password: String!): MessageDto!
+  signup(userData: CreateUserDto!): User!
+  signin(userData: CreateUserDto!): TokenDto!
+  signout: MessageDto!
+  createRole(roleName: String!): Role!
+  createProduct(productData: CreateProductDto!): Product!
+  deleteProduct(productId: Float!): Product!
+  addCategory(categoryName: String!): Category!
+  deleteCategory(categoryId: Float!): Category!
+}
+
+input CreateUserRoleDto {
+  email: String!
+  password: String!
+  roleName: [String!]!
+}
+
+input CreateUserDto {
+  email: String!
+  password: String!
+}
+
+input CreateProductDto {
+  name: String!
+  description: String!
+  price: Int!
+  categoriesId: [Int!]!
+}
