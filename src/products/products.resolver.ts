@@ -6,6 +6,7 @@ import { AuthGuard } from 'src/guards/auth.guard';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { CreateProductDto } from './dtos/create-product.dto';
 import { ProductDto } from './dtos/products.dto';
+import { UpdateProductDto } from './dtos/update-product.dto';
 import { Product } from './products.entity';
 import { ProductsService } from './products.service';
 
@@ -33,6 +34,15 @@ export class ProductsResolver {
     @CurrentUser() user: any,
   ) {
     return this.productsService.create(productData, user);
+  }
+
+  @Mutation(() => ProductDto)
+  @Serialize(ProductDto)
+  updateProduct(
+    @Args('productData') productData: UpdateProductDto,
+    @CurrentUser() user: any,
+  ) {
+    return this.productsService.update(productData, user);
   }
 
   @Mutation(() => Product)

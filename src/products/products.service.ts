@@ -4,6 +4,7 @@ import { Category } from 'src/categories/categories.entity';
 import { User } from 'src/users/users.entity';
 import { Repository } from 'typeorm';
 import { CreateProductDto } from './dtos/create-product.dto';
+import { UpdateProductDto } from './dtos/update-product.dto';
 import { Product } from './products.entity';
 
 @Injectable()
@@ -41,6 +42,24 @@ export class ProductsService {
       user,
       categories,
     });
+    return this.productsRepo.save(product);
+  }
+
+  async update(productData: UpdateProductDto, user: User) {
+    const { name, price, description } = productData;
+    const categories = await Promise.all(
+      productData.categoriesId.map((category) => {
+        return this.categoriesRepo.findOne({ where: { id: category } });
+      }),
+    );
+    const product = await this.productsRepo.findOne({
+      where: { id: productData.id, user },
+      relations: { user: true },
+    });
+    if (!product) {
+      throw new NotFoundException('Product not found');
+    }
+    Object.assign(product, { name, price, description, categories });
     return this.productsRepo.save(product);
   }
 

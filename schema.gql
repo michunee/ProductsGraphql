@@ -69,6 +69,7 @@ type Mutation {
   signout: MessageDto!
   createRole(roleName: String!): Role!
   createProduct(productData: CreateProductDto!): Product!
+  updateProduct(productData: UpdateProductDto!): ProductDto!
   deleteProduct(productId: Float!): Product!
   addCategory(categoryName: String!): Category!
   deleteCategory(categoryId: Float!): Category!
@@ -86,6 +87,14 @@ input CreateUserDto {
 }
 
 input CreateProductDto {
+  name: String!
+  description: String!
+  price: Int!
+  categoriesId: [Int!]!
+}
+
+input UpdateProductDto {
+  id: Int!
   name: String!
   description: String!
   price: Int!
